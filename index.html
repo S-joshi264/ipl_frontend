@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>IPL Player Price Predictor</title>
 
 <style>
@@ -132,6 +133,42 @@ button:hover {
     input, select, button {
         font-size: 14px;
         padding: 11px;
+    }
+}
+@media (max-width: 768px) {
+    body {
+        min-height: 100vh;
+        height: auto;
+        padding: 20px;
+        align-items: center;
+    }
+
+    .container {
+        width: 100%;
+        max-width: 420px;
+        padding: 22px;
+    }
+
+    .grid {
+        grid-template-columns: 1fr !important;
+        gap: 12px;
+    }
+
+    h1 {
+        font-size: 24px;
+        margin-bottom: 20px;
+    }
+
+    input,
+    select,
+    button {
+        width: 100%;
+        font-size: 15px;
+        padding: 13px;
+    }
+
+    button {
+        margin-top: 16px;
     }
 }
 </style>
