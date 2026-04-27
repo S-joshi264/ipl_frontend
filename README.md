@@ -33,7 +33,7 @@ The interface collects the following details:
 ## How It Works
 
 1. User fills in player details.
-2. Clicks **Predict Price **.
+2. Clicks * Predict Price *.
 3. Frontend sends data to backend API.
 4. Displays predicted auction price on screen.
 
