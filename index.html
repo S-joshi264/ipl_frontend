@@ -498,31 +498,51 @@ form.addEventListener("submit", async function (e) {
     };
 
     try {
-        const response = await fetch(API_URL, {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify(data)
-        });
+    const response = await fetch(API_URL, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(data)
+    });
 
-        if (!response.ok) {
-            throw new Error("API error: " + response.status);
-        }
-
-        const result = await response.json();
-
-        console.log("Prediction result:", result);
-
-        const predictedPrice = result.prediction || result.price || result[0];
-
-        priceValue.textContent = Math.round(predictedPrice);
-        resultContainer.classList.remove("hidden");
-
-    } catch (error) {
-        console.error("Error:", error);
-        alert("Prediction failed. Check backend URL, CORS, or API response format.");
+    if (!response.ok) {
+        throw new Error("API error: " + response.status);
     }
+
+    const result = await response.json();
+
+    console.log("Full API response:", result);
+
+    let predictedPrice;
+
+    if (Array.isArray(result.Prediction)) {
+        predictedPrice = result.Prediction[0];
+    } else if (typeof result.Prediction === "number") {
+        predictedPrice = result.Prediction;
+    } else if (Array.isArray(result.prediction)) {
+        predictedPrice = result.prediction[0];
+    } else if (typeof result.prediction === "number") {
+        predictedPrice = result.prediction;
+    } else if (typeof result.price === "number") {
+        predictedPrice = result.price;
+    } else if (Array.isArray(result)) {
+        predictedPrice = result[0];
+    }
+
+    if (predictedPrice === undefined || predictedPrice === null || isNaN(predictedPrice)) {
+        console.log("Wrong prediction format:", result);
+        alert("Prediction received, but value format is wrong. Check console.");
+        return;
+    }
+
+    priceValue.textContent = Math.round(predictedPrice);
+    resultContainer.classList.remove("hidden");
+
+} catch (error) {
+    console.error("Error:", error);
+    alert("Prediction failed. Check backend URL, CORS, or API response format.");
+}
 });
 </script>
 </body>
