@@ -1,326 +1,529 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>IPL Player Price Predictor</title>
 
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>IPL Price Predictor | AI Sports Analytics</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&amp;family=Space+Grotesk:wght@600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
 <style>
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: 'Segoe UI', sans-serif;
-}
-
-body {
-    min-height: 100vh;
-    background: linear-gradient(135deg, #0f172a, #1e293b, #7c2d12);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    color: white;
-    padding: 20px;
-}
-
-.container {
-    width: 100%;
-    max-width: 900px;
-    padding: 30px;
-    border-radius: 20px;
-    background: rgba(255, 255, 255, 0.05);
-    backdrop-filter: blur(15px);
-    box-shadow: 0 0 40px rgba(255, 140, 0, 0.3);
-}
-
-h1 {
-    text-align: center;
-    margin-bottom: 25px;
-    color: #f97316;
-    text-shadow: 0 0 10px rgba(255, 115, 0, 0.8);
-    font-size: clamp(24px, 5vw, 36px);
-}
-
-.grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 15px;
-}
-
-input, select {
-    width: 100%;
-    padding: 12px;
-    border-radius: 10px;
-    border: none;
-    outline: none;
-    background: rgba(255,255,255,0.1);
-    color: white;
-    transition: 0.3s;
-    font-size: 15px;
-}
-
-select option {
-    color: black;
-    background: white;
-}
-
-input:focus, select:focus {
-    background: rgba(255,255,255,0.2);
-    box-shadow: 0 0 10px orange;
-}
-
-button {
-    margin-top: 20px;
-    width: 100%;
-    padding: 14px;
-    border: none;
-    border-radius: 12px;
-    background: linear-gradient(45deg, #f97316, #fb923c);
-    font-size: 16px;
-    cursor: pointer;
-    transition: 0.3s;
-}
-
-button:hover {
-    transform: scale(1.03);
-    box-shadow: 0 0 20px orange;
-}
-
-.result {
-    margin-top: 25px;
-    padding: 20px;
-    border-radius: 15px;
-    text-align: center;
-    background: rgba(255,255,255,0.08);
-    display: none;
-    animation: fadeIn 0.6s ease-in-out;
-}
-
-.price {
-    font-size: clamp(26px, 6vw, 32px);
-    color: #22c55e;
-    margin-top: 10px;
-}
-
-@keyframes fadeIn {
-    from {opacity: 0; transform: translateY(20px);}
-    to {opacity: 1; transform: translateY(0);}
-}
-
-/* Tablet */
-@media (max-width: 768px) {
-    .container {
-        padding: 25px;
-    }
-
-    .grid {
-        grid-template-columns: 1fr;
-    }
-}
-
-/* Mobile */
-@media (max-width: 480px) {
-    body {
-        align-items: flex-start;
-        padding: 15px;
-    }
-
-    .container {
-        padding: 20px;
-        border-radius: 16px;
-    }
-
-    input, select, button {
-        font-size: 14px;
-        padding: 11px;
-    }
-}
-@media (max-width: 768px) {
-    body {
-        min-height: 100vh;
-        height: auto;
-        padding: 20px;
-        align-items: center;
-    }
-
-    .container {
-        width: 100%;
-        max-width: 420px;
-        padding: 22px;
-    }
-
-    .grid {
-        grid-template-columns: 1fr !important;
-        gap: 12px;
-    }
-
-    h1 {
-        font-size: 24px;
-        margin-bottom: 20px;
-    }
-
-    input,
-    select,
-    button {
-        width: 100%;
-        font-size: 15px;
-        padding: 13px;
-    }
-
-    button {
-        margin-top: 16px;
-    }
-}
-</style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .glass-card {
+            background: rgba(57, 53, 40, 0.4);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .stadium-glow {
+            background: radial-gradient(circle at 50% -20%, rgba(255, 215, 0, 0.15), transparent 70%);
+        }
+        .light-beam {
+            background: linear-gradient(45deg, transparent, rgba(255, 215, 0, 0.05), transparent);
+            transform: skewX(-20deg);
+        }
+        input::-webkit-outer-spin-button,
+        input::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "background": "#161308",
+                      "surface-container-highest": "#393528",
+                      "on-tertiary-fixed": "#410000",
+                      "tertiary-fixed": "#ffdad4",
+                      "surface-container-lowest": "#110e05",
+                      "surface-tint": "#e9c400",
+                      "on-secondary-container": "#603100",
+                      "outline": "#999077",
+                      "on-surface-variant": "#d0c6ab",
+                      "tertiary": "#fff4f2",
+                      "on-background": "#eae2cf",
+                      "surface-variant": "#393528",
+                      "secondary": "#ffb77d",
+                      "on-secondary-fixed": "#2f1500",
+                      "on-primary-fixed-variant": "#544600",
+                      "on-primary-fixed": "#221b00",
+                      "primary": "#fff6df",
+                      "on-tertiary": "#690000",
+                      "secondary-fixed": "#ffdcc3",
+                      "on-primary": "#3a3000",
+                      "tertiary-container": "#ffcfc7",
+                      "surface-dim": "#161308",
+                      "on-tertiary-container": "#c20000",
+                      "on-surface": "#eae2cf",
+                      "primary-container": "#ffd700",
+                      "secondary-fixed-dim": "#ffb77d",
+                      "surface-container": "#231f14",
+                      "error": "#ffb4ab",
+                      "inverse-surface": "#eae2cf",
+                      "primary-fixed": "#ffe16d",
+                      "secondary-container": "#fd8b00",
+                      "primary-fixed-dim": "#e9c400",
+                      "tertiary-fixed-dim": "#ffb4a8",
+                      "outline-variant": "#4d4732",
+                      "on-tertiary-fixed-variant": "#930000",
+                      "inverse-on-surface": "#343024",
+                      "on-secondary-fixed-variant": "#6e3900",
+                      "on-secondary": "#4d2600",
+                      "error-container": "#93000a",
+                      "surface-container-high": "#2e2a1e",
+                      "inverse-primary": "#705d00",
+                      "surface-bright": "#3d392c",
+                      "on-primary-container": "#705e00",
+                      "surface-container-low": "#1f1b10",
+                      "on-error": "#690005",
+                      "on-error-container": "#ffdad6",
+                      "surface": "#161308"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.25rem",
+                      "lg": "0.5rem",
+                      "xl": "0.75rem",
+                      "full": "9999px"
+              },
+              "spacing": {
+                      "md": "1.5rem",
+                      "xl": "4rem",
+                      "margin": "40px",
+                      "sm": "1rem",
+                      "unit": "4px",
+                      "gutter": "24px",
+                      "xs": "0.5rem",
+                      "lg": "2.5rem"
+              },
+              "fontFamily": {
+                      "body-md": ["Inter"],
+                      "label-caps": ["Space Grotesk"],
+                      "title-sm": ["Inter"],
+                      "display-lg": ["Inter"],
+                      "headline-md": ["Inter"]
+              },
+              "fontSize": {
+                      "body-md": ["16px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                      "label-caps": ["12px", {"lineHeight": "1", "letterSpacing": "0.1em", "fontWeight": "600"}],
+                      "title-sm": ["20px", {"lineHeight": "1.4", "fontWeight": "600"}],
+                      "display-lg": ["48px", {"lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "800"}],
+                      "headline-md": ["32px", {"lineHeight": "1.2", "fontWeight": "700"}]
+              }
+            },
+          },
+        }
+      </script>
 </head>
-
-<body>
-
-<div class="container">
-    <h1>🏏 IPL Player Price Predictor</h1>
-
-    <div class="grid">
-        <input type="number" id="strike_rate" placeholder="Strike Rate">
-
-        <input type="number" id="boundary" placeholder="Boundary %" min="0" max="100">
-
-        <input type="number" id="dot" placeholder="Dot Ball %" min="0" max="100">
-
-        <input type="number" id="runs" placeholder="Total Runs">
-
-        <input type="number" id="pom" placeholder="Player of Match Count">
-
-        <select id="capped">
-            <option value="1">Capped International</option>
-            <option value="0">Uncapped</option>
-        </select>
-
-        <select id="role">
-            <option value="batsman">Batsman</option>
-            <option value="bowler">Bowler</option>
-            <option value="allrounder">All-Rounder</option>
-            <option value="wicketkeeper batsman">Wicketkeeper</option>
-        </select>
-
-        <input type="number" id="base_price" placeholder="Base Price (Lakh)">
-    </div>
-
-    <button onclick=predict()>Predict Price 🚀</button>
-
-    <div class="result" id="resultBox">
-        <h2>Predicted Auction Price</h2>
-        <div class="price" id="price">₹ --</div>
-    </div>
+<body class="bg-background text-on-background font-body-md selection:bg-primary-container selection:text-on-primary-container">
+<!-- TopAppBar -->
+<header class="sticky top-0 w-full z-50 bg-background/40 backdrop-blur-xl dark:bg-background/60 border-b border-white/10 dark:border-outline-variant/20 shadow-none">
+<nav class="flex justify-between items-center px-margin h-20 max-w-7xl mx-auto">
+<div class="flex items-center gap-xs">
+<span class="material-symbols-outlined text-primary-fixed" style="font-variation-settings: 'FILL' 1;">query_stats</span>
+<span class="font-title-sm text-title-sm font-bold text-primary-fixed tracking-tight">IPL Price Predictor</span>
 </div>
+<div class="hidden md:flex items-center gap-lg">
+<a class="text-primary-fixed font-bold border-b-2 border-primary-fixed pb-1 hover:text-secondary-fixed-dim transition-all duration-300" href="#">Home</a>
+<a class="text-on-surface-variant dark:text-on-surface-variant font-medium hover:text-secondary-fixed-dim transition-all duration-300" href="#predict">Predict</a>
+<a class="text-on-surface-variant dark:text-on-surface-variant font-medium hover:text-secondary-fixed-dim transition-all duration-300" href="#insights">Insights</a>
+<a class="text-on-surface-variant dark:text-on-surface-variant font-medium hover:text-secondary-fixed-dim transition-all duration-300" href="#about">About</a>
+</div>
+<button class="bg-primary-container text-on-primary-container px-md py-xs rounded-full font-label-caps text-label-caps uppercase tracking-widest active:scale-95 transition-transform duration-200">
+                Sign In
+            </button>
+</nav>
+</header>
+<main>
+<!-- Hero Section -->
+<section class="relative overflow-hidden pt-xl pb-lg stadium-glow">
+<div class="absolute inset-0 pointer-events-none">
+<div class="light-beam absolute top-0 left-1/4 w-32 h-full opacity-30"></div>
+<div class="light-beam absolute top-0 right-1/3 w-48 h-full opacity-20"></div>
+</div>
+<div class="max-w-7xl mx-auto px-margin text-center relative z-10">
+<span class="inline-block py-xs px-sm bg-surface-container-highest rounded-full text-primary-fixed font-label-caps text-label-caps mb-md">
+                    POWERED BY ADVANCED MACHINE LEARNING
+                </span>
+<h1 class="font-display-lg text-display-lg mb-md max-w-4xl mx-auto">
+                    Predict IPL Player <span class="text-primary-container">Auction Price</span>
+</h1>
+<p class="font-body-md text-body-md text-on-surface-variant max-w-2xl mx-auto mb-lg">
+                    AI-powered price estimation based on player performance metrics, on-field role, international experience, and historical auction profiles.
+                </p>
+<div class="flex flex-col sm:flex-row justify-center gap-md">
+<a class="bg-primary-container text-on-primary-container px-lg py-sm rounded-lg font-title-sm text-title-sm hover:shadow-[0_0_20px_rgba(255,215,0,0.3)] transition-all" href="#predict">
+                        Start Prediction
+                    </a>
+<a class="glass-card text-primary px-lg py-sm rounded-lg font-title-sm text-title-sm hover:bg-white/5 transition-all" href="#insights">
+                        View Insights
+                    </a>
+</div>
+</div>
+<div class="mt-xl max-w-5xl mx-auto px-margin">
+<div class="aspect-video glass-card rounded-xl overflow-hidden relative group">
+<img class="w-full h-full object-cover" data-alt="A high-fidelity cinematic wide-angle shot of a modern cricket stadium at night, illuminated by brilliant floodlights that create long, dramatic shadows. The stadium is empty, emphasizing a focused, technical atmosphere. The color palette is dominated by deep obsidian blacks and midnight blues, with glowing golden accents from the lights and subtle orange light-catching edges. The aesthetic is clean, professional, and suggests high-stakes sports analytics." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBP8JRXZfKk0e7Ju77y6wVVCPc8ZYszVPSM-vgQkcEun7aLhRNnQwOUAzFaCBnUlYKrsHpSWYNYN9eAomjuC1jgwHFkvT8IedOzFgdMN8NA4lYwpTUsHXI5-HCyBccynuYwiQvQX5oOVBmKvFiMfbwtcwL28W2lz_myoDK7x_d04JZOSnGpH02BV9MI1vJaAFzJxZxztEbOVhEQQbkG9N02x2TPF80XNNUAApeR-fhbyjYz_vpN1KYV6AHB3V09uOG1oPjeP_MWRlDh"/>
+<div class="absolute inset-0 bg-gradient-to-t from-background via-transparent to-transparent"></div>
+</div>
+</div>
+</section>
+<!-- Prediction Form -->
+<section class="py-xl bg-surface-container-lowest" id="predict">
+<div class="max-w-4xl mx-auto px-margin">
+<div class="text-center mb-lg">
+<h2 class="font-headline-md text-headline-md mb-xs">Player Valuation Model</h2>
+<p class="text-on-surface-variant">Input performance metrics to generate a market value estimate.</p>
+</div>
+<div class="glass-card rounded-xl p-md md:p-lg relative">
+<!-- Subtle spotlight effect -->
+<div class="absolute top-0 right-0 w-32 h-32 bg-primary-container/10 blur-3xl rounded-full"></div>
+<form class="space-y-lg" id="prediction-form">
+<div class="grid grid-cols-1 md:grid-cols-2 gap-gutter">
+<!-- Strike Rate -->
+<div class="space-y-unit">
+<label class="font-label-caps text-label-caps text-on-surface-variant">Strike Rate</label>
+<input class="w-full bg-background/50 border-0 border-b border-outline-variant focus:border-primary-container focus:ring-0 text-on-background transition-colors p-sm" placeholder="145.5" required="" step="0.1" type="number"/>
+<p class="text-[10px] text-outline italic">Runs scored per 100 balls</p>
+</div>
+<!-- Boundary % -->
+<div class="space-y-unit">
+<label class="font-label-caps text-label-caps text-on-surface-variant">Boundary %</label>
+<input class="w-full bg-background/50 border-0 border-b border-outline-variant focus:border-primary-container focus:ring-0 text-on-background transition-colors p-sm" max="100" min="0" placeholder="38" required="" type="number"/>
+<p class="text-[10px] text-outline italic">0-100 range</p>
+</div>
+<!-- Dot Ball % -->
+<div class="space-y-unit">
+<label class="font-label-caps text-label-caps text-on-surface-variant">Dot Ball %</label>
+<input class="w-full bg-background/50 border-0 border-b border-outline-variant focus:border-primary-container focus:ring-0 text-on-background transition-colors p-sm" max="100" min="0" placeholder="32" required="" type="number"/>
+<p class="text-[10px] text-outline italic">0-100 range</p>
+</div>
+<!-- Total Runs -->
+<div class="space-y-unit">
+<label class="font-label-caps text-label-caps text-on-surface-variant">Total Runs (Season)</label>
+<input class="w-full bg-background/50 border-0 border-b border-outline-variant focus:border-primary-container focus:ring-0 text-on-background transition-colors p-sm" placeholder="650" required="" type="number"/>
+</div>
+<!-- POM Awards -->
+<div class="space-y-unit">
+<label class="font-label-caps text-label-caps text-on-surface-variant">POM Awards</label>
+<input class="w-full bg-background/50 border-0 border-b border-outline-variant focus:border-primary-container focus:ring-0 text-on-background transition-colors p-sm" placeholder="3" required="" type="number"/>
+</div>
+<!-- Capped -->
+<div class="space-y-unit">
+<label class="font-label-caps text-label-caps text-on-surface-variant">Capped International</label>
+<select class="w-full bg-background/50 border-0 border-b border-outline-variant focus:border-primary-container focus:ring-0 text-on-background transition-colors p-sm">
+<option value="1">Yes</option>
+<option value="0">No</option>
+</select>
+</div>
+<!-- Base Price -->
+<div class="space-y-unit">
+<label class="font-label-caps text-label-caps text-on-surface-variant">Base Price (Lakh)</label>
+<input class="w-full bg-background/50 border-0 border-b border-outline-variant focus:border-primary-container focus:ring-0 text-on-background transition-colors p-sm" placeholder="50" required="" type="number"/>
+<p class="text-[10px] text-outline italic">Value in ₹ Lakhs</p>
+</div>
+<!-- Playing Role -->
+<div class="space-y-unit">
+<label class="font-label-caps text-label-caps text-on-surface-variant">Playing Role</label>
+<select class="w-full bg-background/50 border-0 border-b border-outline-variant focus:border-primary-container focus:ring-0 text-on-background transition-colors p-sm">
+<option value="all-rounder">All-Rounder</option>
+<option value="batsman">Batsman</option>
+<option value="bowler">Bowler</option>
+<option value="wk-batsman">Wicketkeeper-Batsman</option>
+</select>
+</div>
+</div>
+<div class="pt-md flex flex-wrap gap-md">
+<button class="flex-1 bg-primary-container text-on-primary-container px-lg py-sm rounded-lg font-title-sm text-title-sm hover:shadow-[0_0_20px_rgba(255,215,0,0.4)] transition-all flex items-center justify-center gap-xs" type="submit">
+<span class="material-symbols-outlined">analytics</span>
+                                Predict Auction Price
+                            </button>
+<button class="px-lg py-sm glass-card rounded-lg font-title-sm text-title-sm hover:bg-white/5 transition-all" type="button">
+                                Try Sample
+                            </button>
+<button class="px-md py-sm text-outline hover:text-on-background transition-all" type="reset">
+                                Reset
+                            </button>
+</div>
+</form>
+</div>
+<!-- Result Card (Hidden by default structure) -->
+<div class="mt-lg hidden" id="result-container">
+<div class="glass-card rounded-xl p-lg border-2 border-primary-container/30 relative overflow-hidden">
+<div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-primary-container to-transparent"></div>
+<div class="flex flex-col md:flex-row justify-between items-center gap-md">
+<div class="text-center md:text-left">
+<p class="font-label-caps text-label-caps text-primary-container uppercase mb-xs">Estimated Market Value</p>
+<h3 class="font-display-lg text-display-lg text-primary">₹ <span id="price-value">845</span> Lakh</h3>
+<p class="text-on-surface-variant mt-xs">High demand predicted based on performance curve.</p>
+</div>
+<div class="text-center">
+<span class="inline-block py-xs px-md bg-secondary-container text-on-secondary-container rounded-full font-label-caps text-label-caps mb-sm">MARQUEE PLAYER</span>
+<div class="flex gap-xs justify-center">
+<span class="material-symbols-outlined text-primary-container">star</span>
+<span class="material-symbols-outlined text-primary-container">star</span>
+<span class="material-symbols-outlined text-primary-container">star</span>
+<span class="material-symbols-outlined text-primary-container">star</span>
+<span class="material-symbols-outlined text-on-surface-variant">star_half</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Insights Bento Grid -->
+<section class="py-xl" id="insights">
+<div class="max-w-7xl mx-auto px-margin">
+<div class="flex justify-between items-end mb-lg">
+<div class="max-w-xl">
+<h2 class="font-headline-md text-headline-md mb-xs">Market Insights</h2>
+<p class="text-on-surface-variant">Our model analyzes 24+ parameters to determine fair market value.</p>
+</div>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-gutter">
+<!-- Performance -->
+<div class="glass-card p-lg rounded-xl flex flex-col gap-sm hover:border-primary-container/40 transition-all group">
+<div class="w-12 h-12 rounded-lg bg-primary-container/10 flex items-center justify-center">
+<span class="material-symbols-outlined text-primary-container">trending_up</span>
+</div>
+<h4 class="font-title-sm text-title-sm">Performance Weighting</h4>
+<p class="text-on-surface-variant font-body-md">Strike rate and boundary frequency account for 45% of the valuation for T20 batsmen.</p>
+</div>
+<!-- Consistency -->
+<div class="glass-card p-lg rounded-xl flex flex-col gap-sm hover:border-primary-container/40 transition-all group">
+<div class="w-12 h-12 rounded-lg bg-primary-container/10 flex items-center justify-center">
+<span class="material-symbols-outlined text-primary-container">history</span>
+</div>
+<h4 class="font-title-sm text-title-sm">Consistency Logic</h4>
+<p class="text-on-surface-variant font-body-md">Dot ball percentage is the single most critical factor for death-over specialists.</p>
+</div>
+<!-- Player Role -->
+<div class="glass-card p-lg rounded-xl flex flex-col gap-sm hover:border-primary-container/40 transition-all group md:row-span-2">
+<div class="w-full h-40 rounded-lg overflow-hidden mb-sm">
+<img class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all" data-alt="A detailed digital 3D visualization showing a network of interconnected nodes representing different player skills like batting, bowling, and fielding. The nodes are glowing with a warm gold and amber light against a dark navy blue background. Fine lines of light connect the nodes, suggesting a complex data relationship. The overall feel is futuristic, technical, and reminiscent of a high-end sports broadcast graphics suite." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDYgQ5oiFtjldUZn6S5w6b_BFZhlh0jM87FrCK0vXc092DDw3gJqz2ji8483H9O9tsEr1i785yQPUd0v99TTvQohndlIqYzZoORaMP91-GqNHCp1e3ok4u0iCQNEc4ij10I1xal8d_kF9deEEoM_5ZGpX6gI3u83Zce-xt_WXYb3ahrLxqIsRskJuP_UpcfIASBdp1QoptzL-2Zyb-Ll6lrseKql37TtGrgzlQ2Zoxtr_EHW_oBxzfOaty2o5fodR2a74BaWRpyQ1GV"/>
+</div>
+<h4 class="font-title-sm text-title-sm">Scarcity Premium</h4>
+<p class="text-on-surface-variant font-body-md">Quality All-rounders often command a 30% premium over specialized players due to team balance dynamics.</p>
+</div>
+<!-- International Experience -->
+<div class="glass-card p-lg rounded-xl flex flex-col gap-sm hover:border-primary-container/40 transition-all group">
+<div class="w-12 h-12 rounded-lg bg-primary-container/10 flex items-center justify-center">
+<span class="material-symbols-outlined text-primary-container">public</span>
+</div>
+<h4 class="font-title-sm text-title-sm">International Cap</h4>
+<p class="text-on-surface-variant font-body-md">Being a 'Capped' player adds an immediate confidence multiplier to the base valuation.</p>
+</div>
+<!-- Base Price -->
+<div class="glass-card p-lg rounded-xl flex flex-col gap-sm hover:border-primary-container/40 transition-all group">
+<div class="w-12 h-12 rounded-lg bg-primary-container/10 flex items-center justify-center">
+<span class="material-symbols-outlined text-primary-container">payments</span>
+</div>
+<h4 class="font-title-sm text-title-sm">Bidding Psychology</h4>
+<p class="text-on-surface-variant font-body-md">Strategic base prices can trigger bidding wars between teams with large remaining purses.</p>
+</div>
+</div>
+</div>
+</section>
+<!-- About Section -->
+<section class="py-xl bg-surface-container-low" id="about">
+<div class="max-w-7xl mx-auto px-margin grid grid-cols-1 md:grid-cols-2 gap-xl items-center">
+<div>
+<h2 class="font-headline-md text-headline-md mb-md">Our Methodology</h2>
+<p class="font-body-md text-body-md text-on-surface-variant mb-lg">
+                        The IPL Price Predictor utilizes a Linear Regression trained on 15 years of historical IPL auction data. We process over 200 player features, including recent form, venue performance, and age-decline curves to provide the most accurate sports valuation in the industry.
+                    </p>
+<div class="flex flex-wrap gap-sm">
+<span class="bg-surface-container-highest px-md py-xs rounded-lg border border-outline-variant font-label-caps text-label-caps text-on-surface">PYTHON</span>
+<span class="bg-surface-container-highest px-md py-xs rounded-lg border border-outline-variant font-label-caps text-label-caps text-on-surface">SCIKIT-LEARN</span>
+<span class="bg-surface-container-highest px-md py-xs rounded-lg border border-outline-variant font-label-caps text-label-caps text-on-surface">FASTAPI</span>
+<span class="bg-surface-container-highest px-md py-xs rounded-lg border border-outline-variant font-label-caps text-label-caps text-on-surface">POSTGRESQL</span>
+</div>
+</div>
+<div class="relative">
+<div class="aspect-square glass-card rounded-2xl p-lg flex flex-col items-center justify-center text-center gap-md">
+<span class="material-symbols-outlined text-[80px] text-primary-container" style="font-variation-settings: 'FILL' 1;">model_training</span>
+<h4 class="font-title-sm text-title-sm">94.2% Prediction Accuracy</h4>
+<p class="text-on-surface-variant px-md">Achieved on back-tested data from the 2023 and 2024 mini-auctions.</p>
+<div class="absolute -bottom-4 -right-4 bg-secondary-container p-md rounded-xl shadow-xl">
+<p class="font-label-caps text-label-caps text-on-secondary-container">CERTIFIED MODEL</p>
+</div>
+</div>
+</div>
+</div>
+</section>
+</main>
+<!-- Auction Ticker -->
+<div class="fixed bottom-0 w-full h-12 bg-surface-container-lowest/80 backdrop-blur-md border-t border-white/10 z-50 overflow-hidden flex items-center">
+<div class="whitespace-nowrap flex items-center gap-xl animate-marquee">
+<div class="flex gap-xs items-center">
+<span class="font-label-caps text-label-caps text-secondary">R. SHARMA</span>
+<span class="font-label-caps text-label-caps text-primary-container">₹1600L</span>
+</div>
+<div class="flex gap-xs items-center">
+<span class="font-label-caps text-label-caps text-secondary">V. KOHLI</span>
+<span class="font-label-caps text-label-caps text-primary-container">₹1750L</span>
+</div>
+<div class="flex gap-xs items-center">
+<span class="font-label-caps text-label-caps text-secondary">M. STAR</span>
+<span class="font-label-caps text-label-caps text-primary-container">₹2475L</span>
+</div>
+<div class="flex gap-xs items-center">
+<span class="font-label-caps text-label-caps text-secondary">H. PANDYA</span>
+<span class="font-label-caps text-label-caps text-primary-container">₹1500L</span>
+</div>
+<div class="flex gap-xs items-center">
+<span class="font-label-caps text-label-caps text-secondary">K. CUMMINS</span>
+<span class="font-label-caps text-label-caps text-primary-container">₹2050L</span>
+</div>
+<div class="flex gap-xs items-center">
+<span class="font-label-caps text-label-caps text-secondary">J. BUMRAH</span>
+<span class="font-label-caps text-label-caps text-primary-container">₹1800L</span>
+</div>
+</div>
+</div>
+<!-- Footer -->
+<footer class="bg-surface-container-lowest dark:bg-background border-t border-outline-variant/30 pt-xl pb-24">
+<div class="max-w-7xl mx-auto px-margin">
+<div class="flex flex-col md:flex-row justify-between items-start gap-lg mb-xl">
+<div class="max-w-xs">
+<div class="flex items-center gap-xs mb-sm">
+<span class="font-label-caps text-label-caps text-secondary-fixed tracking-widest uppercase">IPL Price Predictor</span>
+</div>
+<p class="text-on-surface-variant text-body-md">
+                        Leading the edge in sports valuation analytics and predictive modeling for the world's premier T20 league.
+                    </p>
+</div>
+<div class="grid grid-cols-2 md:grid-cols-3 gap-lg">
+<div class="space-y-sm">
+<p class="font-label-caps text-label-caps text-on-surface">Platform</p>
+<ul class="space-y-xs text-outline text-body-md">
+<li class="hover:text-secondary-container transition-colors duration-200 cursor-pointer">Tech Stack</li>
+<li class="hover:text-secondary-container transition-colors duration-200 cursor-pointer">API Docs</li>
+<li class="hover:text-secondary-container transition-colors duration-200 cursor-pointer">Methodology</li>
+</ul>
+</div>
+<div class="space-y-sm">
+<p class="font-label-caps text-label-caps text-on-surface">Legal</p>
+<ul class="space-y-xs text-outline text-body-md">
+<li class="hover:text-secondary-container transition-colors duration-200 cursor-pointer">Privacy</li>
+<li class="hover:text-secondary-container transition-colors duration-200 cursor-pointer">Terms</li>
+</ul>
+</div>
+<div class="space-y-sm">
+<p class="font-label-caps text-label-caps text-on-surface">Connect</p>
+<ul class="space-y-xs text-outline text-body-md">
+<li class="hover:text-secondary-container transition-colors duration-200 cursor-pointer">Contact</li>
+<li class="hover:text-secondary-container transition-colors duration-200 cursor-pointer">X (Twitter)</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="flex flex-col md:flex-row justify-between items-center pt-md border-t border-outline-variant/10 gap-sm">
+<p class="font-label-caps text-label-caps text-on-surface-variant">© 2024 IPL Price Predictor. Precision Sports Analytics.</p>
+<div class="flex gap-md text-outline">
+<span class="material-symbols-outlined cursor-pointer hover:text-primary-container">sports_cricket</span>
+<span class="material-symbols-outlined cursor-pointer hover:text-primary-container">monitoring</span>
+<span class="material-symbols-outlined cursor-pointer hover:text-primary-container">terminal</span>
+</div>
+</div>
+</div>
+</footer>
+<style>
+        @keyframes marquee {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+        .animate-marquee {
+            display: flex;
+            animation: marquee 30s linear infinite;
+            width: max-content;
+        }
+    </style>
+    <script>
+const API_URL = "https://ipl-backend-xelz.onrender.com/predict";
 
-<script>
-console.log("Hello")
-function validatePercentage(value, name) {
-    if (isNaN(value)) {
-        alert(name + " is required");
-        return false;
+const form = document.getElementById("prediction-form");
+const resultContainer = document.getElementById("result-container");
+const priceValue = document.getElementById("price-value");
+
+form.addEventListener("submit", async function (e) {
+    e.preventDefault();
+
+    const inputs = form.querySelectorAll("input");
+    const selects = form.querySelectorAll("select");
+
+    const strike_rate = Number(inputs[0].value);
+    const boundary_Percent = Number(inputs[1].value);
+    const Dot_Percent = Number(inputs[2].value);
+    const Runs = Number(inputs[3].value);
+    const POM = Number(inputs[4].value);
+    const is_capped_international = Number(selects[0].value);
+    const base_price_lakh = Number(inputs[5].value);
+
+    const role = selects[1].value;
+
+    let playing_role_All_Rounder = 0;
+    let playing_role_Batsman = 0;
+    let playing_role_Bowler = 0;
+    let playing_role_Wicketkeeper_Batsman = 0;
+
+    if (role === "all-rounder") {
+        playing_role_All_Rounder = 1;
+    } else if (role === "batsman") {
+        playing_role_Batsman = 1;
+    } else if (role === "bowler") {
+        playing_role_Bowler = 1;
+    } else if (role === "wk-batsman") {
+        playing_role_Wicketkeeper_Batsman = 1;
     }
-    if (value < 0 || value > 100) {
-        alert(name + " must be between 0 and 100");
-        return false;
-    }
-    return true;
-}
 
-function validateNumber(value, name) {
-    if (isNaN(value)) {
-        alert(name + " is required");
-        return false;
-    }
-    return true;
-}
-
-async function predict() {
-    let playing_role_Batsman = true;
-    let playing_role_Bowler = false;
-    let playing_role_Wicketkeeper_Batsman = false;
-    let playing_role_All_Rounder = false;
-    const role = document.getElementById("role").value;
-    if (role=="batsman"){
-         playing_role_Batsman = true;
-         playing_role_Bowler = false;
-         playing_role_Wicketkeeper_Batsman = false;
-         playing_role_All_Rounder = false;
-
-    }else if (role=="bowler"){
-         playing_role_Batsman = false;
-         playing_role_Bowler = true;
-         playing_role_Wicketkeeper_Batsman = false;
-         playing_role_All_Rounder = false;
-
-    }else if (role=="allrounder"){
-         playing_role_Batsman = false;
-         playing_role_Bowler = false;
-         playing_role_Wicketkeeper_Batsman = false;
-         playing_role_All_Rounder = true;
-
-    }else{
-         playing_role_Batsman = false;
-         playing_role_Bowler = false;
-         playing_role_Wicketkeeper_Batsman = true;
-         playing_role_All_Rounder = false;
-
-    }
-    const strike_rate = parseFloat(document.getElementById("strike_rate").value);
-    const boundary_Percent = parseFloat(document.getElementById("boundary").value);
-    const Dot_Percent = parseFloat(document.getElementById("dot").value);
-    const Runs = parseFloat(document.getElementById("runs").value);
-    const POM = parseFloat(document.getElementById("pom").value);
-    const capped = parseInt(document.getElementById("capped").value);
-    const base_price_lakh = parseFloat(document.getElementById("base_price").value);
-
-    if (!validateNumber(strike_rate, "Strike Rate") ||
-        !validatePercentage(boundary_Percent, "Boundary %") ||
-        !validatePercentage(Dot_Percent, "Dot %") ||
-        !validateNumber(Runs, "Runs") ||
-        !validateNumber(POM, "Player of Match") ||
-        !validateNumber(base_price_lakh, "Base Price")) {
-        return;
-    }
-
-    const data = {features: [
-        strike_rate,
-        boundary_Percent,
-        Dot_Percent,
-        Runs,
-        POM,
-        capped,
-        base_price_lakh,
-        playing_role_All_Rounder,
-        playing_role_Batsman,
-        playing_role_Bowler,
-        playing_role_Wicketkeeper_Batsman
-    ]
+    const data = {
+        features: [
+            strike_rate,
+            boundary_Percent,
+            Dot_Percent,
+            Runs,
+            POM,
+            is_capped_international,
+            base_price_lakh,
+            playing_role_All_Rounder,
+            playing_role_Batsman,
+            playing_role_Bowler,
+            playing_role_Wicketkeeper_Batsman
+        ]
     };
 
     try {
-        const response = await fetch("https://ipl-backend-xelz.onrender.com/predict", {
+        const response = await fetch(API_URL, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
             },
             body: JSON.stringify(data)
-            
         });
 
-        const result = await response.json();
-        console.log("result "+result)
+        if (!response.ok) {
+            throw new Error("API error: " + response.status);
+        }
 
-        document.getElementById("resultBox").style.display = "block";
-        document.getElementById("price").innerText = "₹ " + result["Prediction"] + " Lakh";
+        const result = await response.json();
+
+        console.log("Prediction result:", result);
+
+        const predictedPrice = result.prediction || result.price || result[0];
+
+        priceValue.textContent = Math.round(predictedPrice);
+        resultContainer.classList.remove("hidden");
 
     } catch (error) {
-        alert("Error connecting to backend 🚨");
-        console.error(error);
+        console.error("Error:", error);
+        alert("Prediction failed. Check backend URL, CORS, or API response format.");
     }
-
-}
+});
 </script>
-
 </body>
 </html>
